@@ -1,17 +1,13 @@
 const winston = require('winston');
 
 const getLogger = (name) => {
-    const myFormat = winston.format.printf(
-        ({
-            level, message, timestamp, label, ...metadata
-        }) => {
-            let msg = `${timestamp} [${label}] [${level}] : ${message} `;
-            if (metadata) {
-                msg += JSON.stringify(metadata);
-            }
-            return msg;
-        },
-    );
+    const myFormat = winston.format.printf(({ level, message, timestamp, label, ...metadata }) => {
+        let msg = `${timestamp} [${label}] [${level}] : ${message} `;
+        if (metadata) {
+            msg += JSON.stringify(metadata);
+        }
+        return msg;
+    });
 
     const logLevel = 'info';
     const transports = [];
@@ -36,14 +32,8 @@ const getLogger = (name) => {
     // Configure this command logger
     return winston.createLogger({
         transports,
-        format: winston.format.combine(
-            winston.format.colorize(),
-            winston.format.splat(),
-            winston.format.timestamp(),
-            winston.format.label({label: name}),
-            myFormat,
-        ),
+        format: winston.format.combine(winston.format.colorize(), winston.format.splat(), winston.format.timestamp(), winston.format.label({ label: name }), myFormat),
     });
 };
 
-module.exports = {getLogger};
+module.exports = { getLogger };

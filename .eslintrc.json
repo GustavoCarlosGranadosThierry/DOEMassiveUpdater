@@ -10,8 +10,21 @@
     },
     "rules": {
         "linebreak-style": 0,
-        "indent": [
-            "error", 4
-        ]
+        "indent": ["error", 4],
+        "camelcase": ["off", { "properties": "never" }],
+        "require-jsdoc": [
+            "error",
+            {
+                "require": {
+                    "FunctionDeclaration": false,
+                    "MethodDefinition": false,
+                    "ClassDeclaration": false,
+                    "ArrowFunctionExpression": false,
+                    "FunctionExpression": false
+                }
+            }
+        ],
+        "max-len": ["error", { "code": 175 }],
+        "object-curly-spacing": ["error", "always"]
     }
 }

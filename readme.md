@@ -1,6 +1,17 @@
 # DOE Massive updater
 
-## Table of contents
+- [DOE Massive updater](#doe-massive-updater)
+  - [Overview](#overview)
+  - [Requirements](#requirements)
+    - [Software requirements](#software-requirements)
+    - [.env file](#env-file)
+  - [General structure of the tool](#general-structure-of-the-tool)
+  - [Tool Usage](#tool-usage)
+    - [Perform a massive update](#perform-a-massive-update)
+      - [Target a specific site for massive updates](#target-a-specific-site-for-massive-updates)
+    - [Get debugging report](#get-debugging-report)
+    - [Perform a targeted massive update](#perform-a-targeted-massive-update)
+    - [Create missing offers](#create-missing-offers)
 
 ## Overview
 
@@ -32,7 +43,30 @@ This section should be updated when new operations are supported by the tool or 
 
 The system is integrated by two main files:
 
-- index.js: the main file and the one to execute, this file containts the only operation at the moment, which is a massive update function, related to the environment established in the .env file.
+- index.js: the main file and the one to execute, this file controls the general flow of the system, has the main logic to perform the step-by-step update of the offers and uses the functions within the functions.js file in order to reduce the complexity of the file.
 
 - functions.js: in this file live all the functions that are needed in order to connect, manipulate and push the information between the two main systems, which are Salesforce and Kevel.
 
+## Tool Usage
+
+To execute the system we use the "npm start" command, the system will prompt us what option do we want to execute, these options are:
+
+### Perform a massive update
+
+This will update all the offers within the network, before executing this option, you need to make sure that the env file is pointing at the environment you desire to work with.
+
+#### Target a specific site for massive updates
+
+The system has the option to make an update only in a specific site, for this, you need to specify the website in the functions.js file, inside the config JSON there's a property called site, it can take these two values, if the value is '' then the system will take all the records within the lookup table in Workato (DOE_E_Automatic_log), updating all the networkk. If you want to target a site it has to have the exact same value that is stored in the lookup table in the site column of the previous mentioned lookup table, an example would be 'freebets.com', if the site property is empty, the system will crash so make sure that the default value is always ''.
+
+### Get debugging report
+
+This function will generate a report within the logs folder inside the root of the project (make sure the folder exists), the system will check all the network established in the env file for these cases: empty flights, missing templates within flights and possible duplicates within a flight.
+
+### Perform a targeted massive update
+
+Whenever you want to update a specific tracker, brand, c-offer or product, you can use this option, this is useful for multiple scenarios, whenever you want to test a new functionality, debug, massive update only one set of records, etc. The way it works is: you select the option to update (tracker, c-offer, brand or product), you'll be requested for the salesforce ID of the element to update, after that the system will prompt you to confirm the operation, you can do the targeted website selection previously explanined on the 'Target a specific site for massive updates' by entering the website if that's what you need.
+
+### Create missing offers
+
+This is still under construction.
